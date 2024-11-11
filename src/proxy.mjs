@@ -55,18 +55,22 @@ const fetchData = async () => {
     }
 };
 
-// Check every minute if it's time to update the data
+// Function to check and fetch data at specified intervals
 const checkAndFetchData = () => {
-    const currentMinute = new Date().getMinutes();
-    const currentSeconds = new Date().getSeconds();
-    if (currentMinute % 5 === 0 && currentSeconds == 0) { // Check if current minute is divisible by 5
+    const now = new Date();
+    const currentMinute = now.getMinutes();
+    const currentSeconds = now.getSeconds();
+
+    // Check if the current minute is 0, 5, 10, ..., 55 and seconds are 0
+    if (currentMinute % 5 === 0 && currentSeconds === 0) {
+        console.log(`Fetching data at ${now.toISOString()}`);
         fetchData();
     }
 };
 
-// Initial fetch and set interval to check every minute
+// Initial fetch and set interval to check every second
 fetchData();
-setInterval(checkAndFetchData, 60 * 1000); // Check every 60 seconds
+setInterval(checkAndFetchData, 1000); // Check every 1 second
 
 // Use the CORS middleware
 app.use(cors());
